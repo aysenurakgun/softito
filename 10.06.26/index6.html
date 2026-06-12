@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"/>
+</head>
+<body class="p-6 bg-gray-200">
+    <div class="p-6 bg-white">
+        <h1 class="text-xl font-bold">Kullanıcı Listesi Fetch Get</h1>
+        <div class="mb-4">
+            <input id="search-input" type="text" placeholder="İsim İle Ara" class="p2-border">
+
+        </div>
+        <button id="btn-load" class="p-2 bg-blue-200 mb-4">Listeyi yükle</button>
+        <ul id="user-list" class="list-disc pl-2 space-y-1">
+            <li>Yakında Yüklenecek</li>
+        </ul>
+        
+    </div>
+    
+
+    <script>
+        let tumKullanicilar=[];
+        const yedekKullanicilar=[
+            {"id":1,'name':'Ayşenur Akgün','email':'aysenurakgun@gmail.com','sehir':'Erzurum'},
+            {"id":2,'name':'Ece Aydın','email':'ece@gmail.com','sehir':'İstanbul'},
+            {"id":3,'name':'Mehmet Erdoğan','email':'mehmet@gmail.com','sehir':'Kahramanmaraş'},
+            {"id":4,'name':'Melike Yalçın','email':'melike@gmail.com','sehir':'Erzincan'}
+
+        ];
+
+        const listeyiCiz=(kullanicilar)=>{
+            const listElement=document.getElementById('user-list');
+            listElement.innerHTML='';
+            if(kullanicilar.lenght === 0){
+                listElement.innerHTML='<li>Eşlenen Kullanıcı Bulunamadı</li>';
+                return;
+
+            }
+
+            kullanicilar.forEach(user=>{
+                const li=document.createElement('li');
+                li.innerHTML=`<strong>${user.name}</strong> - E-posta: ${user.email} (Şehir: ${user.sehir})`;
+                listElement.appendChild(li);
+
+            })
+        }
+
+
+
+
+    const kullanicilariYukle=async()=>{
+        const listElement=document.getElementById('user-list');
+        listElement.innerHTML='<li>Kullanıcılar Yükleniyor.....</li>';
+
+
+    try{
+        const response=await fetch ('https://kodusta.com/api/kullanicilar.json');
+        if(!response.ok){
+            throw new Error('Sunucu hatasi'+response.status);
+
+        }
+        tumKullanicilar = await response.json();
+
+
+    } catch(hata){
+        console.warn('CORS Engeli veya bağlantı hatası,Yedek Veriler Kullanılacak');
+        tumKullanicilar.yedekKullanicilar;
+    }    
+    listeyiCiz(tumKullanicilar);
+}
+
+
+
+document.getElementById('search-input').addEventListener('input',(e)=>{
+    const aramaKelimesi=e.target.value.toLowerCase();
+    const filtrelenmis=tumKullanicilar.filter(user=>user.name.toLowerCase().includes(aramaKelimesi));
+    listeyiCiz(tumKullanicilar);
+
+})
+
+document.getElementById('btn-load').addEventListener('click',kullanicilariYukle);
+
+
+    </script>
+</body>
+</html>

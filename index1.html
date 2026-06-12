@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<body>
+
+<h2>Kayıt Formu</h2>
+
+<form>
+    <input type="text" id="isim" placeholder="İsim"><br><br>
+    <input type="text" id="soyisim" placeholder="Soyisim"><br><br>
+    <input type="tel" id="tel" placeholder="Telefon"><br><br>
+    
+    <input type="file" id="resim" accept="image/*">
+</form>
+
+<hr>
+
+<h3>Önizleme</h3>
+
+<p id="yazi"></p>
+<img id="gorsel" width="200" alt="Yüklenen resim">
+
+<script>
+const isim = document.getElementById("isim");
+const soyisim = document.getElementById("soyisim");
+const tel = document.getElementById("tel");
+const resim = document.getElementById("resim");
+
+const yazi = document.getElementById("yazi");
+const gorsel = document.getElementById("gorsel");
+
+function guncelleYazi() {
+    yazi.textContent = `İsim: ${isim.value} | Soyisim: ${soyisim.value} | Tel: ${tel.value}`;
+}
+
+isim.oninput = guncelleYazi;
+soyisim.oninput = guncelleYazi;
+tel.oninput = guncelleYazi;
+
+resim.onchange = () => {
+    const dosya = resim.files[0];
+
+    if (dosya) {
+        const okuyucu = new FileReader();
+
+        okuyucu.onload = (e) => {
+            gorsel.src = e.target.result;
+        };
+
+        okuyucu.readAsDataURL(dosya);
+    }
+};
+</script>
+</body>
+</html>
