@@ -95,6 +95,7 @@ export const ABOUT_DATA = {
   ]
 };
 
+
 export const FAQ_DATA = [
   {
     q: "Siparişim ne zaman kargolanır?",

@@ -20,11 +20,11 @@ export default function CategoriesList({
             <div
               key={cat.name}
               className="category-card"
-              onClick={onCategoryClick(cat.name)}
+              onClick={() => onCategoryClick(cat.name)}
             >
               <div className="category-icon-box">
-                <span>{cat.name.substring(0,1)}</span> 
-              </div> 
+                <span>{cat.name.substring(0,1)}</span>
+              </div>
               <h3 className="category-name">{cat.name}</h3>
               <span className="category-count">{cat.count} Ürün</span>
             </div>
