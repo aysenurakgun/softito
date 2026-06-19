@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { useTheme } from "../hooks/useTheme";
 
 export default function Header({
   searchInput,
@@ -19,6 +20,7 @@ export default function Header({
     setSearchInput("");
   };
   const { user, logout } = useContext(UserContext);
+  const {theme,toggleTheme}=useTheme()
   return (
     <>
       <header className="header">
@@ -39,6 +41,9 @@ export default function Header({
             </button>
           </form>
           <div className="header-actions">
+            <div className="header-item" onClick={toggleTheme}>
+              <span>{theme==='light'?'🌙':'️️️☀️'}</span>
+            </div>
             <div className="action-item" onClick={() => setView("addProduct")}>
               <span>Yeni Ürün</span>
             </div>
